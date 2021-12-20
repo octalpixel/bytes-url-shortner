@@ -1,3 +1,4 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
 import { loggerLink } from '@trpc/client/links/loggerLink';
 import { withTRPC } from '@trpc/next';
@@ -8,7 +9,9 @@ import superjson from 'superjson';
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <>
-      <Component {...pageProps} />
+      <ChakraProvider>
+        <Component {...pageProps} />
+      </ChakraProvider>
     </>
   );
 };

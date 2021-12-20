@@ -32,20 +32,25 @@
     "singleQuote": true
   },
   "dependencies": {
+    "@chakra-ui/icons": "^1.1.1",
+    "@chakra-ui/react": "^1.7.3",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
     "@prisma/client": "^3.4.2",
-    "@trpc/client": "^9.14.0",
-    "@trpc/next": "^9.14.0",
-    "@trpc/react": "^9.14.0",
-    "@trpc/server": "^9.14.0",
+    "@trpc/client": "^9.16.0",
+    "@trpc/next": "^9.16.0",
+    "@trpc/react": "^9.16.0",
+    "@trpc/server": "^9.16.0",
     "clsx": "^1.1.1",
+    "framer-motion": "^4",
     "nanoid": "^3.1.30",
     "next": "^12.0.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-query": "^3.27.0",
+    "react-query": "^3.34.2",
     "start-server-and-test": "^1.12.0",
     "superjson": "^1.7.4",
-    "zod": "^3.0.0"
+    "zod": "^3.11.6"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",
