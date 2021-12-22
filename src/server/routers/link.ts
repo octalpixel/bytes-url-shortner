@@ -1,6 +1,7 @@
 import { createRouter } from 'server/createRouter';
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
+import { getHostFromURL } from 'utils/helper';
 
 export const linkRouter = createRouter()
   // get all links
@@ -9,6 +10,9 @@ export const linkRouter = createRouter()
       return ctx.prisma.link.findMany({
         orderBy: {
           createdAt: 'desc',
+        },
+        include: {
+          vists: true,
         },
       });
     },
@@ -20,31 +24,38 @@ export const linkRouter = createRouter()
     async resolve({ ctx, input }) {
       const { id } = input;
 
-      const post = await ctx.prisma.link.findUnique({
+      const link = await ctx.prisma.link.findUnique({
         where: { id },
+        select: {
+          hits: true,
+        },
       });
 
-      if (!post) {
+      if (!link) {
         throw new TRPCError({
           code: 'NOT_FOUND',
           message: 'Link not found',
         });
       }
 
-      return post;
+      return link;
     },
   })
   .mutation('add', {
     input: z.object({
       destinationUrl: z.string(),
       slug: z.string(),
+      domain: z.string().optional(),
     }),
     async resolve({ ctx: { prisma }, input }) {
-      const { slug, destinationUrl } = input;
+      const { slug, destinationUrl, domain } = input;
 
       const existingSlug = await prisma?.link.findFirst({
         where: {
           shortSlug: slug,
+          domain:
+            domain ||
+            getHostFromURL(process.env.NEXT_PUBLIC_BASE_DOMAIN as string),
         },
       });
 
@@ -59,6 +70,9 @@ export const linkRouter = createRouter()
         data: {
           shortSlug: slug,
           url: destinationUrl,
+          domain:
+            domain ||
+            getHostFromURL(process.env.NEXT_PUBLIC_BASE_DOMAIN as string),
         },
       });
 
